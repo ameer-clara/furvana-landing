@@ -98,13 +98,13 @@ export function Waitlist({ dark = false }: WaitlistProps) {
         </div>
         <h4>You&rsquo;re on the list!</h4>
         <p>
-          You&rsquo;re <b>#{pos.toLocaleString()}</b> in line for early access.
-          We&rsquo;ll email <b>{email}</b> the moment Furvana ships
+          You&rsquo;re <b>#{pos.toLocaleString()}</b>{" "}in line for early
+          access. We&rsquo;ll email <b>{email}</b> the moment Furvana ships
           {breed ? (
             xxl ? (
               <>
-                . Since a <b>{breed.name}</b> is a bit bigger than our current
-                arch fits, we&rsquo;ll also keep you posted on the{" "}
+                . Since a <b>{breed.name}</b>{" "}is a bit bigger than our
+                current arch fits, we&rsquo;ll also keep you posted on the{" "}
                 <b>XXL Furvana</b>.
               </>
             ) : (
