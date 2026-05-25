@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, type KeyboardEvent, type ChangeEvent } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, PawPrint } from "lucide-react";
+
+import { BreedPicker } from "./breed-picker";
+import type { Breed } from "@/lib/breeds";
 
 interface WaitlistProps {
   dark?: boolean;
@@ -13,6 +16,7 @@ const PERKS = ["Early-bird pricing", "No spam, ever", "Cancel anytime"] as const
 
 export function Waitlist({ dark = false }: WaitlistProps) {
   const [email, setEmail] = useState("");
+  const [breed, setBreed] = useState<Breed | null>(null);
   const [pos, setPos] = useState<number | null>(null);
 
   const isValid = EMAIL_RE.test(email);
@@ -27,37 +31,41 @@ export function Waitlist({ dark = false }: WaitlistProps) {
     if (e.key === "Enter") submit();
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
   if (isDone) {
+    const xxl = breed && !breed.fits;
     return (
-      <div
-        className="fv-success"
-        style={
-          dark
-            ? {
-                background: "rgba(255,255,255,.06)",
-                borderColor: "rgba(199,154,95,.4)",
-              }
-            : undefined
-        }
-      >
-        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <div className="fv-check-badge">
-            <Check size={24} strokeWidth={3} />
-          </div>
-          <div>
-            <h4 style={dark ? { color: "#fbf7ef" } : undefined}>
-              You&rsquo;re on the list! &#128062;
-            </h4>
-            <p style={dark ? { color: "#d7cdbd" } : undefined}>
-              You&rsquo;re #{pos.toLocaleString()} in line for early access.
-              We&rsquo;ll email <b>{email}</b> the moment Furvana ships.
-            </p>
-          </div>
+      <div className={`fv-success${dark ? " fv-success-dark" : ""}`}>
+        <div className="fv-paws" aria-hidden="true">
+          <PawPrint size={26} strokeWidth={2} className="fv-paw fv-paw-1" />
+          <PawPrint size={26} strokeWidth={2} className="fv-paw fv-paw-2" />
+          <PawPrint size={26} strokeWidth={2} className="fv-paw fv-paw-3" />
+          <PawPrint size={26} strokeWidth={2} className="fv-paw fv-paw-4" />
+          <PawPrint size={26} strokeWidth={2} className="fv-paw fv-paw-5" />
         </div>
+        <h4>You&rsquo;re on the list!</h4>
+        <p>
+          You&rsquo;re <b>#{pos.toLocaleString()}</b> in line for early access.
+          We&rsquo;ll email <b>{email}</b> the moment Furvana ships
+          {breed ? (
+            xxl ? (
+              <>
+                . Since a <b>{breed.name}</b> is a bit bigger than our current
+                arch fits, we&rsquo;ll also keep you posted on the{" "}
+                <b>XXL Furvana</b>.
+              </>
+            ) : (
+              <>
+                {" "}&mdash; we&rsquo;ve noted you have a <b>{breed.name}</b>.
+              </>
+            )
+          ) : (
+            "."
+          )}
+        </p>
       </div>
     );
   }
@@ -70,13 +78,16 @@ export function Waitlist({ dark = false }: WaitlistProps) {
           type="email"
           placeholder="your@email.com"
           value={email}
-          onChange={handleChange}
+          onChange={handleEmailChange}
           onKeyDown={handleKeyDown}
         />
         <button className="fv-btn" onClick={submit}>
           Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
         </button>
       </div>
+
+      <BreedPicker value={breed} onChange={setBreed} />
+
       <div className="fv-micro">
         {PERKS.map((perk) => (
           <span key={perk}>
