@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Mulish, Fraunces } from "next/font/google";
 import "./globals.css";
@@ -17,10 +17,73 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://furvana-landing.vercel.app";
+const TITLE = "Furvana — Smart Self-Grooming Arch";
+const DESCRIPTION =
+  "The smart grooming arch that pampers your cat or small dog automatically. Live HD camera, two-way audio, and a gentle reciprocating massage. Join the waitlist for early access.";
+
 export const metadata: Metadata = {
-  title: "Furvana — Smart Self-Grooming Arch",
-  description:
-    "The smart grooming arch that pampers your cat or small dog automatically. Join the waitlist for early access.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s · Furvana",
+  },
+  description: DESCRIPTION,
+  applicationName: "Furvana",
+  category: "technology",
+  keywords: [
+    "Furvana",
+    "smart pet grooming",
+    "self-grooming arch",
+    "cat grooming",
+    "small dog grooming",
+    "pet tech",
+    "pet camera",
+    "two-way audio pet",
+    "shedding",
+  ],
+  authors: [{ name: "Furvana" }],
+  creator: "Furvana",
+  publisher: "Furvana",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Furvana",
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    creator: "@furvana",
+    site: "@furvana",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F8F2E7" },
+    { media: "(prefers-color-scheme: dark)", color: "#2B2620" },
+  ],
+  colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
