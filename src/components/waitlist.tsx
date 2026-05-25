@@ -1,8 +1,14 @@
 "use client";
 
-import { useState, type KeyboardEvent, type ChangeEvent } from "react";
-import { ArrowRight, Check, PawPrint } from "lucide-react";
+import {
+  useState,
+  useTransition,
+  type KeyboardEvent,
+  type ChangeEvent,
+} from "react";
+import { AlertCircle, ArrowRight, Check, Loader, PawPrint } from "lucide-react";
 
+import { joinWaitlist } from "@/app/actions";
 import { BreedPicker } from "./breed-picker";
 import type { Breed } from "@/lib/breeds";
 
@@ -18,13 +24,23 @@ export function Waitlist({ dark = false }: WaitlistProps) {
   const [email, setEmail] = useState("");
   const [breed, setBreed] = useState<Breed | null>(null);
   const [pos, setPos] = useState<number | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
   const isValid = EMAIL_RE.test(email);
   const isDone = pos !== null;
 
   const submit = () => {
-    if (!isValid) return;
-    setPos(2847 + Math.floor(Math.random() * 120));
+    if (!isValid || pending) return;
+    setError(null);
+    startTransition(async () => {
+      const result = await joinWaitlist({ email, breed });
+      if (result.ok && typeof result.pos === "number") {
+        setPos(result.pos);
+      } else {
+        setError(result.error ?? "Something went wrong. Please try again.");
+      }
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,6 +49,7 @@ export function Waitlist({ dark = false }: WaitlistProps) {
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    if (error) setError(null);
   };
 
   if (isDone) {
@@ -80,13 +97,36 @@ export function Waitlist({ dark = false }: WaitlistProps) {
           value={email}
           onChange={handleEmailChange}
           onKeyDown={handleKeyDown}
+          disabled={pending}
+          aria-invalid={error ? true : undefined}
         />
-        <button className="fv-btn" onClick={submit}>
-          Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
+        <button
+          className="fv-btn"
+          onClick={submit}
+          disabled={pending || !isValid}
+          aria-busy={pending}
+        >
+          {pending ? (
+            <>
+              <Loader size={17} strokeWidth={2.5} className="fv-spin" />
+              Joining&hellip;
+            </>
+          ) : (
+            <>
+              Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
+            </>
+          )}
         </button>
       </div>
 
       <BreedPicker value={breed} onChange={setBreed} />
+
+      {error && (
+        <div className="fv-error" role="alert">
+          <AlertCircle size={15} strokeWidth={2.4} />
+          <span>{error}</span>
+        </div>
+      )}
 
       <div className="fv-micro">
         {PERKS.map((perk) => (

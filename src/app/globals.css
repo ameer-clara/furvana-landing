@@ -238,6 +238,18 @@
 .fv-cta .fv-breed-notice b{color:#fbf7ef;}
 .fv-cta .fv-breed-notice > svg{color:#e3b87f;}
 
+/* ---- inline spinner + error ---- */
+.fv-btn:disabled{cursor:not-allowed;opacity:.85;}
+.fv-spin{animation:fvspin 1s linear infinite;}
+@keyframes fvspin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){.fv-spin{animation-duration:0s;}}
+.fv-error{
+  margin-top:10px;display:flex;gap:8px;align-items:center;
+  background:#fdecec;border:1px solid #f3c2c2;color:#8a2727;
+  border-radius:14px;padding:10px 14px;font-size:13.5px;font-weight:600;
+}
+.fv-cta .fv-error{background:rgba(255,255,255,.08);border-color:rgba(244,113,113,.45);color:#ffd6d6;}
+
 /* hero image */
 .fv-hero-art{position:relative;}
 .fv-hero-blob{
