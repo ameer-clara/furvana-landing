@@ -275,10 +275,7 @@ export default function Home() {
       {/* TRUST */}
       <section className="fv-section" style={{ paddingTop: 0 }}>
         <div className="fv-wrap">
-          <div
-            className="fv-feat-grid fv-stagger"
-            style={{ gridTemplateColumns: "repeat(4,1fr)" }}
-          >
+          <div className="fv-feat-grid fv-feat-grid--4 fv-stagger">
             {TRUST.map((f) => (
               <FeatureCard
                 key={f.title}
