@@ -18,7 +18,7 @@ const fraunces = Fraunces({
 });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://furvana-landing.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://furvana.fun";
 const TITLE = "Furvana — Smart Self-Grooming Arch";
 const DESCRIPTION =
   "The smart grooming arch that pampers your cat or small dog automatically. Live HD camera, two-way audio, and a gentle reciprocating massage. Join the waitlist for early access.";
