@@ -331,6 +331,9 @@
 .fv-feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
 @media(max-width:860px){.fv-feat-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:560px){.fv-feat-grid{grid-template-columns:1fr;}}
+.fv-feat-grid--4{grid-template-columns:repeat(4,1fr);}
+@media(max-width:860px){.fv-feat-grid--4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.fv-feat-grid--4{grid-template-columns:repeat(2,1fr);}}
 .fv-card{
   background:var(--cream-2);border:1px solid var(--line);border-radius:22px;
   padding:30px 26px;transition:transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
