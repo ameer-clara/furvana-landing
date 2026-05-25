@@ -118,7 +118,7 @@ export default function Home() {
                 <Sparkles size={14} /> Now accepting early access
               </span>
               <h1 className="fv-h1">
-                The smart grooming arch that <em>pampers</em> your
+                The smart grooming arch that <em>pampers</em>{" "}your
                 pet&mdash;automatically.
               </h1>
               <p className="fv-sub">

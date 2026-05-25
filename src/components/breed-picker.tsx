@@ -390,10 +390,10 @@ export function BreedPicker({
         <div className="fv-breed-notice" role="status">
           <AlertTriangle size={16} strokeWidth={2.2} />
           <div>
-            A <b>{value.name}</b> is a touch bigger than our current arch
+            A <b>{value.name}</b>{" "}is a touch bigger than our current arch
             (9.5–15&Prime; tall, 10.5–16.5&Prime; wide). We&rsquo;re working on
-            an <b>XXL Furvana</b> &mdash; join the list and you&rsquo;ll be the
-            first to know.
+            an <b>XXL Furvana</b>{" "}&mdash; join the list and you&rsquo;ll be
+            the first to know.
           </div>
         </div>
       )}
