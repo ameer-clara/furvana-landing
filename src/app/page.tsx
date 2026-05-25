@@ -10,6 +10,7 @@ import {
 import { FEATURES, TRUST, SPECS } from "@/lib/data";
 import { Header, RevealObserver, HeroImage } from "@/components/chrome";
 import { Waitlist } from "@/components/waitlist";
+import { ArrowRight } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
 /*  Presentational sub-components (server-rendered)                    */
@@ -112,7 +113,7 @@ export default function Home() {
       <section className="fv-section fv-hero">
         <div className="fv-wrap">
           <div className="fv-hero-grid">
-            <div className="fv-stagger">
+            <div className="fv-stagger fv-hero-copy">
               <span className="fv-eyebrow">
                 <Sparkles size={14} /> Now accepting early access
               </span>
@@ -125,9 +126,9 @@ export default function Home() {
                 with a soothing reciprocating massage, live HD video, and
                 two-way audio. Less shedding, calmer pets, and a stronger bond.
               </p>
-              <div id="waitlist-top">
-                <Waitlist />
-              </div>
+              <a className="fv-btn fv-hero-cta" href="#waitlist">
+                Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
+              </a>
             </div>
 
             <HeroImage />

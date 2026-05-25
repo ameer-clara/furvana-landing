@@ -12,6 +12,8 @@ import {
   Cat,
   ChevronDown,
   Dog,
+  PawPrint,
+  Plus,
   Search,
   X,
 } from "lucide-react";
@@ -21,9 +23,18 @@ import { BREEDS, type Breed } from "@/lib/breeds";
 interface BreedPickerProps {
   value: Breed | null;
   onChange: (b: Breed | null) => void;
+  onTextChange?: (text: string) => void;
+  required?: boolean;
+  invalid?: boolean;
 }
 
-export function BreedPicker({ value, onChange }: BreedPickerProps) {
+export function BreedPicker({
+  value,
+  onChange,
+  onTextChange,
+  required = false,
+  invalid = false,
+}: BreedPickerProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIdx, setActiveIdx] = useState(0);
@@ -41,20 +52,48 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
     return () => document.removeEventListener("mousedown", onDown);
   }, [open]);
 
-  const { popular, alphabetical, flat } = useMemo(() => {
-    const q = query.trim().toLowerCase();
+  // Lock body scroll while the picker is open on small screens so the menu
+  // behaves like a sheet and never fights the page for scroll.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!open) return;
+    if (window.matchMedia("(max-width: 560px)").matches) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [open]);
+
+  const trimmed = query.trim();
+
+  const { popular, alphabetical, flat, exact } = useMemo(() => {
+    const q = trimmed.toLowerCase();
     const matches = q
       ? BREEDS.filter((b) => b.name.toLowerCase().includes(q))
       : BREEDS;
     const byName = (a: Breed, b: Breed) => a.name.localeCompare(b.name);
     const pop = matches.filter((b) => b.popular).sort(byName);
     const rest = matches.filter((b) => !b.popular).sort(byName);
-    return { popular: pop, alphabetical: rest, flat: [...pop, ...rest] };
-  }, [query]);
+    const exactMatch =
+      q && BREEDS.some((b) => b.name.toLowerCase() === q);
+    return {
+      popular: pop,
+      alphabetical: rest,
+      flat: [...pop, ...rest],
+      exact: exactMatch,
+    };
+  }, [trimmed]);
+
+  const canAddCustom = trimmed.length >= 2 && !exact;
+  // The custom entry sits at the end of the flat keyboard-nav list.
+  const customIdx = canAddCustom ? flat.length : -1;
+  const navLength = flat.length + (canAddCustom ? 1 : 0);
 
   useEffect(() => {
     setActiveIdx(0);
-  }, [query]);
+  }, [trimmed]);
 
   useEffect(() => {
     if (!open || !listRef.current) return;
@@ -68,21 +107,41 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
     onChange(b);
     setOpen(false);
     setQuery("");
+    onTextChange?.("");
     inputRef.current?.blur();
+  };
+
+  const commitCustom = () => {
+    if (!canAddCustom) return;
+    commit({
+      name: trimmed,
+      species: "other",
+      popular: false,
+      fits: true,
+      custom: true,
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setOpen(true);
-      setActiveIdx((i) => Math.min(i + 1, Math.max(flat.length - 1, 0)));
+      setActiveIdx((i) => Math.min(i + 1, Math.max(navLength - 1, 0)));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIdx((i) => Math.max(i - 1, 0));
     } else if (e.key === "Enter") {
-      if (open && flat[activeIdx]) {
-        e.preventDefault();
-        commit(flat[activeIdx]);
+      if (open) {
+        if (activeIdx === customIdx && canAddCustom) {
+          e.preventDefault();
+          commitCustom();
+        } else if (flat[activeIdx]) {
+          e.preventDefault();
+          commit(flat[activeIdx]);
+        } else if (canAddCustom) {
+          e.preventDefault();
+          commitCustom();
+        }
       }
     } else if (e.key === "Escape") {
       setOpen(false);
@@ -97,7 +156,7 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
       <div
         className={`fv-breed-input${open ? " open" : ""}${
           value && !value.fits ? " warn" : ""
-        }`}
+        }${invalid ? " invalid" : ""}`}
         onClick={() => {
           setOpen(true);
           inputRef.current?.focus();
@@ -107,10 +166,16 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
           <span className={`fv-breed-chip ${value.species}`}>
             {value.species === "cat" ? (
               <Cat size={13} strokeWidth={2.2} />
-            ) : (
+            ) : value.species === "dog" ? (
               <Dog size={13} strokeWidth={2.2} />
+            ) : (
+              <PawPrint size={13} strokeWidth={2.2} />
             )}
-            {value.species === "cat" ? "Cat" : "Dog"}
+            {value.species === "cat"
+              ? "Cat"
+              : value.species === "dog"
+                ? "Dog"
+                : "Pet"}
           </span>
         ) : (
           <Search
@@ -125,11 +190,16 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
           type="text"
           className="fv-breed-text"
           placeholder={
-            value ? value.name : "Pick your pet's breed (optional)"
+            value
+              ? value.name
+              : required
+                ? "Pick your pet's breed"
+                : "Pick your pet's breed (optional)"
           }
           value={displayValue}
           onChange={(e) => {
             setQuery(e.target.value);
+            onTextChange?.(e.target.value);
             setOpen(true);
             if (value) onChange(null);
           }}
@@ -138,6 +208,8 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
           aria-label="Pet breed"
           aria-autocomplete="list"
           aria-expanded={open}
+          aria-required={required}
+          aria-invalid={invalid || undefined}
           role="combobox"
         />
 
@@ -166,34 +238,78 @@ export function BreedPicker({ value, onChange }: BreedPickerProps) {
       </div>
 
       {open && (
-        <div className="fv-breed-menu" role="listbox" ref={listRef}>
-          {popular.length > 0 && (
-            <BreedSection
-              label="Most popular"
-              items={popular}
-              startIdx={0}
-              activeIdx={activeIdx}
-              onHover={setActiveIdx}
-              onSelect={commit}
-            />
-          )}
-          {alphabetical.length > 0 && (
-            <BreedSection
-              label="All breeds A–Z"
-              items={alphabetical}
-              startIdx={popular.length}
-              activeIdx={activeIdx}
-              onHover={setActiveIdx}
-              onSelect={commit}
-            />
-          )}
-          {flat.length === 0 && (
-            <div className="fv-breed-empty">
-              No matches — leave it blank and we&rsquo;ll figure out who your
-              pet is when you sign up.
+        <>
+          <div
+            className="fv-breed-backdrop"
+            aria-hidden="true"
+            onClick={() => setOpen(false)}
+          />
+          <div
+            className="fv-breed-menu"
+            role="listbox"
+            ref={listRef}
+            onTouchMove={(e) => e.stopPropagation()}
+          >
+            <div className="fv-breed-menu-head">
+              <span>Pick your pet&rsquo;s breed</span>
+              <button
+                type="button"
+                className="fv-breed-menu-close"
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+              >
+                <X size={16} strokeWidth={2.4} />
+              </button>
             </div>
-          )}
-        </div>
+            {popular.length > 0 && (
+              <BreedSection
+                label="Most popular"
+                items={popular}
+                startIdx={0}
+                activeIdx={activeIdx}
+                onHover={setActiveIdx}
+                onSelect={commit}
+              />
+            )}
+            {alphabetical.length > 0 && (
+              <BreedSection
+                label="All breeds A–Z"
+                items={alphabetical}
+                startIdx={popular.length}
+                activeIdx={activeIdx}
+                onHover={setActiveIdx}
+                onSelect={commit}
+              />
+            )}
+            {canAddCustom && (
+              <div
+                className={`fv-breed-add${
+                  activeIdx === customIdx ? " active" : ""
+                }`}
+                data-idx={customIdx}
+                role="option"
+                aria-selected={activeIdx === customIdx}
+                onMouseEnter={() => setActiveIdx(customIdx)}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  commitCustom();
+                }}
+              >
+                <span className="fv-breed-spec other" aria-hidden="true">
+                  <Plus size={14} strokeWidth={2.4} />
+                </span>
+                <span className="fv-breed-name">
+                  Use &ldquo;<b>{trimmed}</b>&rdquo; as your pet&rsquo;s breed
+                </span>
+              </div>
+            )}
+            {flat.length === 0 && !canAddCustom && (
+              <div className="fv-breed-empty">
+                Type at least 2 characters to add your own breed.
+              </div>
+            )}
+          </div>
+        </>
       )}
 
       {value && !value.fits && (
