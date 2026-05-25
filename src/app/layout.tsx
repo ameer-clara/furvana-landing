@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Mulish, Fraunces } from "next/font/google";
 import "./globals.css";
 
@@ -15,13 +17,13 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Furvana — Smart Self-Grooming Arch",
   description:
     "The smart grooming arch that pampers your cat or small dog automatically. Join the waitlist for early access.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${mulish.variable} ${fraunces.variable}`}>
       <body style={{ margin: 0 }}>{children}</body>
