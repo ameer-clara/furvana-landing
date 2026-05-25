@@ -28,6 +28,7 @@ var HEADERS = [
   "Breed",
   "Species",
   "Fits current arch",
+  "Custom breed",
   "Source",
 ];
 
@@ -52,6 +53,7 @@ function doPost(e) {
       payload.breed || "",
       payload.species || "",
       payload.fits || "",
+      payload.custom || "",
       payload.source || "",
     ]);
 

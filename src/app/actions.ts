@@ -36,6 +36,7 @@ export async function joinWaitlist(input: {
         breed: input.breed?.name ?? "",
         species: input.breed?.species ?? "",
         fits: input.breed ? String(input.breed.fits) : "",
+        custom: input.breed?.custom ? "true" : "",
         source: "furvana-landing",
         at: new Date().toISOString(),
       }),

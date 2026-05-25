@@ -62,7 +62,7 @@ export default async function OpengraphImage() {
             >
               F
             </span>
-            Furvana
+            <span>Furvana</span>
           </div>
           <div
             style={{
@@ -103,11 +103,11 @@ export default async function OpengraphImage() {
           >
             <span>The smart grooming arch</span>
             <span style={{ display: "flex", flexWrap: "wrap" }}>
-              that&nbsp;
+              <span>that&nbsp;</span>
               <span style={{ fontStyle: "italic", color: "#9A6B3A" }}>
                 pampers
               </span>
-              &nbsp;your pet.
+              <span>&nbsp;your pet.</span>
             </span>
           </div>
           <div
