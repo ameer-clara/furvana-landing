@@ -5,9 +5,16 @@
  * one row per signup to the bound Google Sheet. Returns the row number so the
  * UI can show "You're #N in line".
  *
+ * A signup can include multiple pets. Each per-pet field (Breed, Species,
+ * Fits, Custom) arrives already flattened into a single string, one entry per
+ * pet separated by "; " (e.g. Breed = "Maine Coon; Corgi"). The "Pet count"
+ * column records how many pets were listed.
+ *
  * Setup
  * 1. Create a Google Sheet. Open Extensions → Apps Script and paste this file.
  * 2. Run `setupHeaders` once from the Apps Script editor to write column titles.
+ *    (If upgrading an existing sheet, re-run it to add the new "Pet count"
+ *    column, or just add that header manually.)
  * 3. Deploy → New deployment → type: Web app
  *      - Execute as: Me
  *      - Who has access: Anyone
@@ -29,6 +36,7 @@ var HEADERS = [
   "Species",
   "Fits current arch",
   "Custom breed",
+  "Pet count",
   "Source",
 ];
 
@@ -54,6 +62,7 @@ function doPost(e) {
       payload.species || "",
       payload.fits || "",
       payload.custom || "",
+      payload.count || "",
       payload.source || "",
     ]);
 
@@ -67,7 +76,7 @@ function doPost(e) {
 
 function doGet() {
   // Friendly response so anyone hitting the URL in a browser sees something.
-  return json({ ok: true, hint: "POST JSON {email, breed, species, fits} to add a signup" });
+  return json({ ok: true, hint: "POST JSON {email, breed, species, fits, custom, count} to add a signup. Multi-pet fields are '; '-delimited." });
 }
 
 function json(obj) {

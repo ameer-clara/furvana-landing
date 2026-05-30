@@ -154,6 +154,30 @@
   .fv-paw{animation-duration:.01s;animation-delay:0s;opacity:1;transform:none;}
 }
 
+/* ---- selected pet chips (multi-pet waitlist) ---- */
+.fv-pet-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.fv-pet-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#fff;border:1px solid var(--line);border-radius:999px;
+  padding:6px 7px 6px 13px;font-weight:700;font-size:13.5px;color:var(--ink);
+}
+.fv-pet-chip .sp{display:inline-flex;color:var(--tan-deep);}
+.fv-pet-chip.warn{border-color:rgba(206,122,46,.5);background:#fff8ee;}
+.fv-pet-chip .rm{
+  width:20px;height:20px;border-radius:50%;border:none;cursor:pointer;padding:0;
+  background:rgba(43,38,32,.08);color:var(--ink-soft);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s, color .2s;
+}
+.fv-pet-chip .rm:hover{background:rgba(43,38,32,.16);color:var(--ink);}
+.fv-cta .fv-pet-chip{
+  background:rgba(255,255,255,.08);border-color:rgba(199,154,95,.4);color:#f1dcc0;
+}
+.fv-cta .fv-pet-chip.warn{background:rgba(206,122,46,.18);border-color:rgba(206,122,46,.5);}
+.fv-cta .fv-pet-chip .sp{color:#e3b87f;}
+.fv-cta .fv-pet-chip .rm{background:rgba(255,255,255,.14);color:#e9ddca;}
+.fv-cta .fv-pet-chip .rm:hover{background:rgba(255,255,255,.26);color:#fff;}
+
 /* ---- breed picker ---- */
 .fv-breed{position:relative;margin-top:0;}
 .fv-breed-input{
