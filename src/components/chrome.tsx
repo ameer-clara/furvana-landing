@@ -38,8 +38,10 @@ export function Header({ children }: HeaderProps) {
         />
         <nav className="fv-nav">
           <a onClick={() => scrollTo("features")}>Features</a>
+          <a onClick={() => scrollTo("software")}>Software</a>
+          <a onClick={() => scrollTo("marketplace")}>Marketplace</a>
+          <a onClick={() => scrollTo("hardware")}>Hardware</a>
           <a onClick={() => scrollTo("app")}>App</a>
-          <a onClick={() => scrollTo("pets")}>For Your Pet</a>
           <a onClick={() => scrollTo("waitlist")}>Early Access</a>
         </nav>
         <button className="fv-btn" onClick={() => scrollTo("waitlist")}>

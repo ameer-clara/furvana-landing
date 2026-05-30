@@ -26,6 +26,7 @@ interface BreedPickerProps {
   onTextChange?: (text: string) => void;
   required?: boolean;
   invalid?: boolean;
+  placeholder?: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -91,6 +92,7 @@ export function BreedPicker({
   onTextChange,
   required = false,
   invalid = false,
+  placeholder,
 }: BreedPickerProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -272,9 +274,10 @@ export function BreedPicker({
           placeholder={
             value
               ? value.name
-              : required
-                ? "Search 200+ breeds (Lagotto, Maine Coon…)"
-                : "Search your pet's breed (optional)"
+              : (placeholder ??
+                (required
+                  ? "Search 200+ breeds (Lagotto, Maine Coon…)"
+                  : "Search your pet's breed (optional)"))
           }
           value={displayValue}
           onChange={(e) => handleQueryChange(e.target.value)}

@@ -11,6 +11,13 @@ import {
   Leaf,
   Plug,
   RotateCw,
+  ScanFace,
+  Users,
+  HeartPulse,
+  Scale,
+  Candy,
+  ImagePlus,
+  Video,
 } from "lucide-react";
 
 export interface FeatureItem {
@@ -65,6 +72,78 @@ export const FEATURES: FeatureItem[] = [
   },
 ];
 
+export const SOFTWARE: FeatureItem[] = [
+  {
+    icon: ScanFace,
+    title: "AI Pet Recognition",
+    description:
+      "On-device AI learns each pet's face and coat, greeting them by name and tailoring every session—even in a multi-pet home.",
+  },
+  {
+    icon: Users,
+    title: "Care Marketplace",
+    description:
+      "Coming soon: post a photo to find trusted local sitters and groomers—waitlisted members get the first beta invites.",
+  },
+  {
+    icon: HeartPulse,
+    title: "Wellness Insights",
+    description:
+      "Weight trends, grooming history, and gentle nudges turn everyday sessions into a clear picture of your pet's wellbeing.",
+  },
+];
+
+export const MARKETPLACE_STEPS: FeatureItem[] = [
+  {
+    icon: ImagePlus,
+    title: "Post your pet",
+    description:
+      "Share a photo, breed, and a few care notes in seconds—Furvana fills in the details it already knows.",
+  },
+  {
+    icon: Users,
+    title: "Match with sitters",
+    description:
+      "Get matched with background-checked sitters and groomers nearby, with ratings from other pet parents.",
+  },
+  {
+    icon: Video,
+    title: "Watch & relax",
+    description:
+      "They care for your friend while you follow along on live HD video and two-way audio from anywhere.",
+  },
+];
+
+export const HARDWARE: FeatureItem[] = [
+  {
+    icon: Scale,
+    title: "Load-Sensor Base",
+    description:
+      "A precision load cell built into the base weighs your pet every visit—tracking wellness trends to ±0.05 lb.",
+  },
+  {
+    icon: Candy,
+    title: "Auto Treat Dispenser",
+    description:
+      "A built-in tube rewards calm grooming with a perfectly timed treat, reinforcing good habits automatically.",
+  },
+  {
+    icon: Leaf,
+    title: "Organic Treat Cartridges",
+    description:
+      "Refillable cartridges pair with premium organic brands, so every reward is as wholesome as it is delicious.",
+  },
+];
+
+export const TREAT_PILLS: string[] = [
+  "USDA Organic",
+  "Grain-free",
+  "Vet-formulated",
+  "Single-ingredient",
+  "Limited-ingredient",
+  "No fillers",
+];
+
 export const TRUST: FeatureItem[] = [
   {
     icon: ShieldCheck,
@@ -98,4 +177,6 @@ export const SPECS: SpecItem[] = [
   },
   { icon: RotateCw, value: "50\u00B0", label: "Oscillation arc" },
   { icon: Camera, value: "1080p", label: "HD wide-angle" },
+  { icon: Scale, value: "\u00B10.05 lb", label: "Weight precision" },
+  { icon: Candy, value: "60-treat", label: "Dispenser hopper" },
 ];

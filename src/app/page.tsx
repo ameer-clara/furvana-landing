@@ -7,7 +7,15 @@ import {
   Leaf,
 } from "lucide-react";
 
-import { FEATURES, TRUST, SPECS } from "@/lib/data";
+import {
+  FEATURES,
+  SOFTWARE,
+  MARKETPLACE_STEPS,
+  HARDWARE,
+  TREAT_PILLS,
+  TRUST,
+  SPECS,
+} from "@/lib/data";
 import { Header, RevealObserver, HeroImage } from "@/components/chrome";
 import { Waitlist } from "@/components/waitlist";
 import { ArrowRight } from "lucide-react";
@@ -33,6 +41,31 @@ function FeatureCard({
         <Icon size={centered ? 24 : 26} strokeWidth={1.8} />
       </div>
       <h3 style={centered ? { fontSize: 18 } : undefined}>{title}</h3>
+      <p>{description}</p>
+    </div>
+  );
+}
+
+function StepCard({
+  index,
+  icon: Icon,
+  title,
+  description,
+}: {
+  index: number;
+  icon: React.ComponentType<{ size: number; strokeWidth: number }>;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="fv-step">
+      <div className="fv-step-top">
+        <span className="num-badge">{index}</span>
+        <span className="fv-step-ic">
+          <Icon size={20} strokeWidth={1.8} />
+        </span>
+      </div>
+      <h3>{title}</h3>
       <p>{description}</p>
     </div>
   );
@@ -124,7 +157,9 @@ export default function Home() {
               <p className="fv-sub">
                 Furvana&rsquo;s self-grooming arch greets your cat or small dog
                 with a soothing reciprocating massage, live HD video, and
-                two-way audio. Less shedding, calmer pets, and a stronger bond.
+                two-way audio. Now smarter than ever&mdash;with AI pet
+                recognition, in-base weight tracking, auto treat rewards, and a
+                care marketplace on the way.
               </p>
               <a className="fv-btn fv-hero-cta" href="#waitlist">
                 Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
@@ -181,6 +216,72 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SOFTWARE */}
+      <section className="fv-section" id="software" style={{ paddingTop: 30 }}>
+        <div className="fv-wrap">
+          <div className="fv-sec-head reveal">
+            <div className="fv-tag">Smart software</div>
+            <h2 className="fv-h2">
+              An arch that <em>gets smarter</em> every day.
+            </h2>
+            <p className="fv-lead">
+              Furvana pairs gentle hardware with on-device intelligence&mdash;so
+              it recognizes your pet, looks after their wellness, and&mdash;
+              soon&mdash;connects you to a whole community of care.
+            </p>
+          </div>
+          <div className="fv-feat-grid fv-stagger">
+            {SOFTWARE.map((f) => (
+              <FeatureCard
+                key={f.title}
+                icon={f.icon}
+                title={f.title}
+                description={f.description}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CARE MARKETPLACE */}
+      <section className="fv-section" id="marketplace" style={{ paddingTop: 30 }}>
+        <div className="fv-wrap">
+          <div className="fv-sec-head reveal">
+            <div className="fv-soon">
+              <span className="dot" aria-hidden="true" />
+              Care marketplace &middot; In development
+            </div>
+            <h2 className="fv-h2">
+              Never leave your friend <em>without a sitter.</em>
+            </h2>
+            <p className="fv-lead">
+              We&rsquo;re building a marketplace to connect you with trusted,
+              vetted sitters and groomers&mdash;post a photo, share a few notes,
+              and find the perfect carer when life gets busy. It&rsquo;s in
+              active development, and <b>everyone on the waitlist gets first
+              access when the beta opens.</b>
+            </p>
+          </div>
+          <p className="fv-steps-note reveal">Here&rsquo;s how it will work</p>
+          <div className="fv-steps fv-stagger">
+            {MARKETPLACE_STEPS.map((s, i) => (
+              <StepCard
+                key={s.title}
+                index={i + 1}
+                icon={s.icon}
+                title={s.title}
+                description={s.description}
+              />
+            ))}
+          </div>
+          <div className="fv-steps-cta reveal">
+            <a className="fv-btn fv-btn-ghost" href="#waitlist">
+              Get early beta access <ArrowRight size={16} strokeWidth={2.5} />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* APP */}
       <section className="fv-section" id="app" style={{ paddingTop: 30 }}>
         <div className="fv-wrap">
@@ -225,6 +326,51 @@ export default function Home() {
                   description="a gentle ping whenever your pet drops by."
                 />
               </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* HARDWARE */}
+      <section className="fv-section" id="hardware" style={{ paddingTop: 30 }}>
+        <div className="fv-wrap">
+          <div className="fv-sec-head reveal">
+            <div className="fv-tag">More hardware</div>
+            <h2 className="fv-h2">
+              A base that <em>weighs in</em>&mdash;and rewards.
+            </h2>
+            <p className="fv-lead">
+              Beneath the gentle massage, a precision load sensor tracks your
+              pet&rsquo;s weight while a built-in tube delivers a healthy treat
+              right when they&rsquo;ve earned it.
+            </p>
+          </div>
+          <div className="fv-feat-grid fv-stagger">
+            {HARDWARE.map((f) => (
+              <FeatureCard
+                key={f.title}
+                icon={f.icon}
+                title={f.title}
+                description={f.description}
+              />
+            ))}
+          </div>
+
+          <div className="fv-treat-band reveal">
+            <div className="fv-tag">Treat partners</div>
+            <h3 className="fv-treat-head">
+              Treats worth <em>wagging for.</em>
+            </h3>
+            <p>
+              We&rsquo;re partnering with premium, healthy, organic treat brands
+              so every auto-dispensed reward is as wholesome as it is delicious.
+            </p>
+            <div className="fv-pill-list">
+              {TREAT_PILLS.map((p) => (
+                <span className="fv-pill" key={p}>
+                  <Leaf size={15} className="p" /> {p}
+                </span>
+              ))}
             </div>
           </div>
         </div>

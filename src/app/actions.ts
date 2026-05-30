@@ -10,17 +10,23 @@ export interface JoinResult {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Multiple pets are flattened into one cell per column on the Google Sheet,
+// separated by this delimiter (e.g. "Maine Coon; Corgi").
+const DELIM = "; ";
+
 // Stable-ish placeholder position when no webhook is configured (local dev).
 const fallbackPos = () => 2847 + Math.floor(Math.random() * 120);
 
 export async function joinWaitlist(input: {
   email: string;
-  breed: Breed | null;
+  pets: Breed[];
 }): Promise<JoinResult> {
   const email = input.email.trim().toLowerCase();
   if (!EMAIL_RE.test(email)) {
     return { ok: false, error: "Please enter a valid email address." };
   }
+
+  const pets = Array.isArray(input.pets) ? input.pets : [];
 
   const url = process.env.WAITLIST_WEBHOOK_URL;
   if (!url) {
@@ -33,10 +39,11 @@ export async function joinWaitlist(input: {
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         email,
-        breed: input.breed?.name ?? "",
-        species: input.breed?.species ?? "",
-        fits: input.breed ? String(input.breed.fits) : "",
-        custom: input.breed?.custom ? "true" : "",
+        breed: pets.map((p) => p.name).join(DELIM),
+        species: pets.map((p) => p.species).join(DELIM),
+        fits: pets.map((p) => String(p.fits)).join(DELIM),
+        custom: pets.map((p) => (p.custom ? "true" : "false")).join(DELIM),
+        count: String(pets.length),
         source: "furvana-landing",
         at: new Date().toISOString(),
       }),
