@@ -159,7 +159,7 @@ export default function Home() {
                 with a soothing reciprocating massage, live HD video, and
                 two-way audio. Now smarter than ever&mdash;with AI pet
                 recognition, in-base weight tracking, auto treat rewards, and a
-                built-in care marketplace.
+                care marketplace on the way.
               </p>
               <a className="fv-btn fv-hero-cta" href="#waitlist">
                 Join Waitlist <ArrowRight size={17} strokeWidth={2.5} />
@@ -226,8 +226,8 @@ export default function Home() {
             </h2>
             <p className="fv-lead">
               Furvana pairs gentle hardware with on-device intelligence&mdash;so
-              it recognizes your pet, looks after their health, and connects you
-              to a whole community of care.
+              it recognizes your pet, looks after their wellness, and&mdash;
+              soon&mdash;connects you to a whole community of care.
             </p>
           </div>
           <div className="fv-feat-grid fv-stagger">
@@ -247,16 +247,22 @@ export default function Home() {
       <section className="fv-section" id="marketplace" style={{ paddingTop: 30 }}>
         <div className="fv-wrap">
           <div className="fv-sec-head reveal">
-            <div className="fv-tag">Care marketplace</div>
+            <div className="fv-soon">
+              <span className="dot" aria-hidden="true" />
+              Care marketplace &middot; In development
+            </div>
             <h2 className="fv-h2">
               Never leave your friend <em>without a sitter.</em>
             </h2>
             <p className="fv-lead">
-              Going away? Post a photo and a few notes, and Furvana matches you
-              with trusted, vetted sitters and groomers nearby&mdash;then keeps
-              you connected through the whole stay.
+              We&rsquo;re building a marketplace to connect you with trusted,
+              vetted sitters and groomers&mdash;post a photo, share a few notes,
+              and find the perfect carer when life gets busy. It&rsquo;s in
+              active development, and <b>everyone on the waitlist gets first
+              access when the beta opens.</b>
             </p>
           </div>
+          <p className="fv-steps-note reveal">Here&rsquo;s how it will work</p>
           <div className="fv-steps fv-stagger">
             {MARKETPLACE_STEPS.map((s, i) => (
               <StepCard
@@ -267,6 +273,11 @@ export default function Home() {
                 description={s.description}
               />
             ))}
+          </div>
+          <div className="fv-steps-cta reveal">
+            <a className="fv-btn fv-btn-ghost" href="#waitlist">
+              Get early beta access <ArrowRight size={16} strokeWidth={2.5} />
+            </a>
           </div>
         </div>
       </section>

@@ -83,11 +83,11 @@ export const SOFTWARE: FeatureItem[] = [
     icon: Users,
     title: "Care Marketplace",
     description:
-      "Post a photo and find trusted local sitters and groomers to pamper your furry friend when life gets busy.",
+      "Coming soon: post a photo to find trusted local sitters and groomers—waitlisted members get the first beta invites.",
   },
   {
     icon: HeartPulse,
-    title: "Health Insights",
+    title: "Wellness Insights",
     description:
       "Weight trends, grooming history, and gentle nudges turn everyday sessions into a clear picture of your pet's wellbeing.",
   },
@@ -119,7 +119,7 @@ export const HARDWARE: FeatureItem[] = [
     icon: Scale,
     title: "Load-Sensor Base",
     description:
-      "A precision load cell built into the base weighs your pet every visit—tracking healthy trends to ±0.05 lb.",
+      "A precision load cell built into the base weighs your pet every visit—tracking wellness trends to ±0.05 lb.",
   },
   {
     icon: Candy,

@@ -21,7 +21,7 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://furvana.fun";
 const TITLE = "Furvana — Smart Self-Grooming Arch";
 const DESCRIPTION =
-  "The smart grooming arch that pampers your cat or small dog automatically. AI pet recognition, in-base weight tracking, an auto treat dispenser, live HD camera, two-way audio, and a built-in care marketplace. Join the waitlist for early access.";
+  "The smart grooming arch that pampers your cat or small dog automatically. AI pet recognition, in-base weight tracking, an auto treat dispenser, live HD camera, two-way audio, and an upcoming care marketplace. Join the waitlist for early access.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
